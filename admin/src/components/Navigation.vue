@@ -1,3 +1,6 @@
+<script setup>
+	let { __, _x, _n, _nx } = wp.i18n;
+</script>
 <template>
 	<nav class="adfy-navigation">
 		<ul class="navigation">
@@ -14,7 +17,7 @@
 							/>
 						</svg>
 					</span>
-					Settings
+					{{ __("Settings", "addonify-quick-view") }}
 				</router-link>
 			</li>
 			<li>
@@ -30,7 +33,7 @@
 							/>
 						</svg>
 					</span>
-					Styles
+					{{ __("Styles", "addonify-quick-view") }}
 				</router-link>
 			</li>
 			<li>
@@ -46,10 +49,9 @@
 							/>
 						</svg>
 					</span>
-					Products
+					{{ __("Products", "addonify-quick-view") }}
 				</router-link>
 			</li>
 		</ul>
 	</nav>
 </template>
-<script setup></script>

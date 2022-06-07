@@ -1,5 +1,4 @@
 <script>
-	//import { ref, toRefs, reactive, onMounted, watch, computed } from "vue";
 	import axios from "axios";
 	import Loading from "../Loading.vue";
 	//import { Check, Close } from "@element-plus/icons-vue";
@@ -33,13 +32,6 @@
 			},
 		},
 		methods: {
-			// Handle form data
-			//handleFormData() {
-			//	let formdata = new FormData();
-			//	formdata.append(this.options, this.options);
-			//	this.saveSettings(formdata);
-			//},
-
 			async fetchSettings() {
 				try {
 					let res = await axios.get(
@@ -73,26 +65,6 @@
 						console.log(err);
 						alert("Failed to save settings!!!!");
 					});
-			},
-		},
-		watch: {
-			option: {
-				handler(newValue, oldValue) {
-					this.newOptions = Object.assign({}, newValue);
-					//console.log(oldValue);
-					console.log(newValue);
-					if (
-						JSON.stringify(this.options) ===
-						JSON.stringify(this.newOptions)
-					) {
-						this.needSave = false;
-					} else {
-						this.needSave = true;
-						console.log("need save");
-					}
-				},
-				deep: true,
-				immediate: false,
 			},
 		},
 

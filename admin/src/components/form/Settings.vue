@@ -1,11 +1,10 @@
 <script setup>
 	import { onMounted } from "vue";
-	import { storeToRefs } from "pinia";
-	import { Check, Close, Eleme } from "@element-plus/icons-vue";
 	import Loading from "../Loading.vue";
+	import { Check, Close } from "@element-plus/icons-vue";
 	import { useOptionsStore } from "../../stores/options";
+	let { __, _x, _n, _nx } = wp.i18n;
 	let store = useOptionsStore();
-	//let { isLoading, needSave, options } = storeToRefs(store);
 
 	onMounted(() => {
 		store.fetchOptions();
@@ -14,14 +13,23 @@
 <template>
 	<Loading v-if="store.isLoading" />
 	<form v-else id="adfy-settings-form" class="adfy-form" @submit.prevent>
-		<h3 class="option-box-title">General</h3>
+		<h3 class="option-box-title">
+			{{ __("General", "addonify-quick-view") }}
+		</h3>
 		<div class="adfy-options">
 			<div class="adfy-option-columns option-box">
 				<div class="adfy-col left">
 					<div class="label">
-						<p class="option-label">Enable quick view</p>
+						<p class="option-label">
+							{{ __("Enable quick view", "addonify-quick-view") }}
+						</p>
 						<p class="option-description">
-							Once enabled, it will be visible in product catalog.
+							{{
+								__(
+									"Once enabled, it will be visible in product catalog.",
+									"addonify-quick-view"
+								)
+							}}
 						</p>
 					</div>
 				</div>
@@ -44,12 +52,16 @@
 			class="adfy-setting-options"
 			v-if="store.options.enable_quick_view"
 		>
-			<h3 class="option-box-title">Button Options</h3>
+			<h3 class="option-box-title">
+				{{ __("Button Options", "addonify-quick-view") }}
+			</h3>
 			<div class="adfy-options">
 				<div class="adfy-option-columns option-box">
 					<div class="adfy-col left">
 						<div class="label">
-							<p class="option-label">Button label</p>
+							<p class="option-label">
+								{{ __("Button label", "addonify-quick-view") }}
+							</p>
 						</div>
 					</div>
 					<div class="adfy-col right">
@@ -68,10 +80,18 @@
 				<div class="adfy-option-columns option-box">
 					<div class="adfy-col left">
 						<div class="label">
-							<p class="option-label">Button position</p>
+							<p class="option-label">
+								{{
+									__("Button position", "addonify-quick-view")
+								}}
+							</p>
 							<p class="option-description">
-								Choose where you want to show the quick view
-								button.
+								{{
+									__(
+										"Choose where you want to show the quick view button.",
+										"addonify-quick-view"
+									)
+								}}
 							</p>
 						</div>
 					</div>
@@ -95,15 +115,28 @@
 				</div>
 			</div>
 			<!-- // adfy-options -->
-			<h3 class="option-box-title">Modal Box Options</h3>
+			<h3 class="option-box-title">
+				{{ __("Modal Box Options", "addonify-quick-view") }}
+			</h3>
 			<div class="adfy-options">
 				<div class="adfy-option-columns option-box fullwidth">
 					<div class="adfy-col left">
 						<div class="label">
-							<p class="option-label">Content to display</p>
+							<p class="option-label">
+								{{
+									__(
+										"Content to display",
+										"addonify-quick-view"
+									)
+								}}
+							</p>
 							<p class="option-description">
-								Which content would you like to display on quick
-								view modal.
+								{{
+									__(
+										"Which content would you like to display on quick view modal.",
+										"addonify-quick-view"
+									)
+								}}
 							</p>
 						</div>
 					</div>
@@ -131,10 +164,21 @@
 				<div class="adfy-option-columns option-box">
 					<div class="adfy-col left">
 						<div class="label">
-							<p class="option-label">Product thumbnail</p>
+							<p class="option-label">
+								{{
+									__(
+										"Product thumbnail",
+										"addonify-quick-view"
+									)
+								}}
+							</p>
 							<p class="option-description">
-								Choose whether you want to display single
-								product image or gallery in quick view modal.
+								{{
+									__(
+										"Choose whether you want to display single product image or gallery in quick view modal.",
+										"addonify-quick-view"
+									)
+								}}
 							</p>
 						</div>
 					</div>
@@ -162,10 +206,18 @@
 				<div class="adfy-option-columns option-box">
 					<div class="adfy-col left">
 						<div class="label">
-							<p class="option-label">Enable lightbox</p>
+							<p class="option-label">
+								{{
+									__("Enable lightbox", "addonify-quick-view")
+								}}
+							</p>
 							<p class="option-description">
-								Enable lightbox for product images in quick view
-								modal.
+								{{
+									__(
+										"Enable lightbox for product images in quick view modal.",
+										"addonify-quick-view"
+									)
+								}}
 							</p>
 						</div>
 					</div>
@@ -189,10 +241,20 @@
 					<div class="adfy-col left">
 						<div class="label">
 							<p class="option-label">
-								Display view detail button
+								{{
+									__(
+										"Display view detail button",
+										"addonify-quick-view"
+									)
+								}}
 							</p>
 							<p class="option-description">
-								Enable display view detail button in modal.
+								{{
+									__(
+										"Enable display view detail button in modal.",
+										"addonify-quick-view"
+									)
+								}}
 							</p>
 						</div>
 					</div>
@@ -215,7 +277,7 @@
 		<!-- // adfy-settings-options -->
 	</form>
 </template>
-<style lang="css" scoped>
+<style lang="css">
 	.el-checkbox {
 		--el-checkbox-font-weight: normal;
 	}

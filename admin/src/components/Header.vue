@@ -1,3 +1,11 @@
+<script setup>
+	import { useOptionsStore } from "../stores/options";
+	let { __, _x, _n, _nx } = wp.i18n;
+	let store = useOptionsStore();
+	let documentationLinkLabel = adfy_wp_locolizer.documentation_link_label;
+	let saveButtonLabel = adfy_wp_locolizer.save_button_label;
+</script>
+
 <template>
 	<header class="adfy-header">
 		<div class="adfy-row">
@@ -27,7 +35,7 @@
 			<div class="adfy-col end">
 				<div class="buttons">
 					<a href="#" class="adfy-button fake-button has-underline">
-						{{ documentation }}
+						{{ __("Documentation", "addonify-quick-view") }}
 					</a>
 					<button
 						type="submit"
@@ -47,17 +55,10 @@
 								></path>
 							</svg>
 						</span>
-						{{ __("Save Option Hi", "addonify-quick-view") }}
+						{{ __("Save Options", "addonify-quick-view") }}
 					</button>
 				</div>
 			</div>
 		</div>
 	</header>
 </template>
-<script setup>
-	import { useOptionsStore } from "../stores/options";
-	const { __, _x, _n, _nx } = wp.i18n;
-	let store = useOptionsStore();
-	let documentation = adfy_wp_locolizer.documentation;
-	let saveOptions = adfy_wp_locolizer.save_options;
-</script>

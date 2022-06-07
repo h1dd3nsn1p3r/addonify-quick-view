@@ -76,18 +76,23 @@ class Addonify_Quick_View_Admin {
 
 			wp_enqueue_script( 'main', plugin_dir_url( __FILE__ ) . 'assets/js/main.js', ['vendor', 'wp-i18n'], $this->version, true );
 
-			wp_set_script_translations( 'main', 'addonify-quick-view' );
+			wp_set_script_translations( 'main', $this->plugin_name );
 
 			wp_localize_script( 'main', 'adfy_wp_locolizer', [
 
-				'admin_url'  				=> admin_url( '/' ),
-				'ajax_url'   				=> admin_url( 'admin-ajax.php' ),
-				'api_url'    				=> home_url( '/wp-json/addonify_quick_view_options_api/' ),
-				'version'					=> __('Version', 'addonify-quick-view'),
-				'version_number' 			=> $this->version,
-				'documentation'				=> __('Documentation', 'addonify-quick-view'),
-				'rate'						=> __('Rate', 'addonify-quick-view'),
-				'save_options'				=> __('Save Options', 'addonify-quick-view'),
+				'admin_url'  						=> admin_url( '/' ),
+				'ajax_url'   						=> admin_url( 'admin-ajax.php' ),
+				'api_url'    						=> home_url( '/wp-json/addonify_quick_view_options_api/' ),
+				'version'							=> __('Version', 'addonify-quick-view'),
+				'version_number' 					=> $this->version,
+				'documentation_link_label'			=> __('Documentation', 'addonify-quick-view'),
+				'rate'								=> __('Rate', 'addonify-quick-view'),
+				'save_button_label'					=> __('Save Options', 'addonify-quick-view'),
+				'tab_settings' 						=> __('Settings', 'addonify-quick-view'),
+				'tab_styles' 						=> __('Styles', 'addonify-quick-view'),
+				'tab_products' 						=> __('Products', 'addonify-quick-view'),
+				'route_404_error_text'				=> __('404 Error. Page not found.', 'addonify-quick-view'),
+				'go_back_button_label'				=> __('Go Back', 'addonify-quick-view'),
         	] );
 		}
 	}

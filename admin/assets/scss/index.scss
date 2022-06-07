@@ -18,9 +18,10 @@
 
 @import 'base/form';
 
-@import 'layouts/01_entry';
-@import 'layouts/02_header';
-@import 'layouts/03_footer';
+@import 'layouts/entry';
+@import 'layouts/header';
+@import 'layouts/footer';
+@import 'layouts/error-404';
 
 @import 'helpers/class';
 @import 'helpers/keyframes';
