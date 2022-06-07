@@ -47,7 +47,7 @@
 								></path>
 							</svg>
 						</span>
-						{{ __("Saveeee", "addonify-quick-view") }}
+						{{ __("Save Optionss", "addonify-quick-view") }}
 					</button>
 				</div>
 			</div>
