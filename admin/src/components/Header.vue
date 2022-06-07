@@ -47,7 +47,7 @@
 								></path>
 							</svg>
 						</span>
-						{{ __("Save Optionss", "addonify-quick-view") }}
+						{{ __("Save Option Hi", "addonify-quick-view") }}
 					</button>
 				</div>
 			</div>
@@ -56,7 +56,7 @@
 </template>
 <script setup>
 	import { useOptionsStore } from "../stores/options";
-	import { sprintf, _n, __ } from "@wordpress/i18n";
+	const { __, _x, _n, _nx } = wp.i18n;
 	let store = useOptionsStore();
 	let documentation = adfy_wp_locolizer.documentation;
 	let saveOptions = adfy_wp_locolizer.save_options;

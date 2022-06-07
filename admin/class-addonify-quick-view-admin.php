@@ -76,6 +76,8 @@ class Addonify_Quick_View_Admin {
 
 			wp_enqueue_script( 'main', plugin_dir_url( __FILE__ ) . 'assets/js/main.js', ['vendor', 'wp-i18n'], $this->version, true );
 
+			wp_set_script_translations( 'main', 'addonify-quick-view' );
+
 			wp_localize_script( 'main', 'adfy_wp_locolizer', [
 
 				'admin_url'  				=> admin_url( '/' ),

@@ -316,25 +316,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _stores_options__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../stores/options */ "./admin/src/stores/options.js");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "./node_modules/@wordpress/i18n/build-module/index.js");
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Header',
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
+    var _wp$i18n = wp.i18n,
+        __ = _wp$i18n.__,
+        _x = _wp$i18n._x,
+        _n = _wp$i18n._n,
+        _nx = _wp$i18n._nx;
     var store = (0,_stores_options__WEBPACK_IMPORTED_MODULE_0__.useOptionsStore)();
     var documentation = adfy_wp_locolizer.documentation;
     var saveOptions = adfy_wp_locolizer.save_options;
     var __returned__ = {
+      __: __,
+      _x: _x,
+      _n: _n,
+      _nx: _nx,
       store: store,
       documentation: documentation,
       saveOptions: saveOptions,
-      useOptionsStore: _stores_options__WEBPACK_IMPORTED_MODULE_0__.useOptionsStore,
-      sprintf: _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.sprintf,
-      _n: _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__._n,
-      __: _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__
+      useOptionsStore: _stores_options__WEBPACK_IMPORTED_MODULE_0__.useOptionsStore
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -727,7 +731,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "adfy-button",
     disabled: !$setup.store.needSave,
     loading: $setup.store.isSaving
-  }, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.__("Save Optionss", "addonify-quick-view")), 1
+  }, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.__("Save Option Hi", "addonify-quick-view")), 1
   /* TEXT */
   )], 8
   /* PROPS */
