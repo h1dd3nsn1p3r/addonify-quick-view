@@ -727,7 +727,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "adfy-button",
     disabled: !$setup.store.needSave,
     loading: $setup.store.isSaving
-  }, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.__("Save Options", "addonify-quick-view")), 1
+  }, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.__("Save Optionss", "addonify-quick-view")), 1
   /* TEXT */
   )], 8
   /* PROPS */
