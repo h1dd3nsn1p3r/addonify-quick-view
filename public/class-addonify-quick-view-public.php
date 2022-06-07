@@ -463,7 +463,7 @@ class Addonify_Quick_View_Public {
 		// do not continue if "Enable Product Comparision" is not checked
 		if( ! $this->enable_plugin ) return;
 
-		$btn_label = $this->get_db_values( 'view_detail_btn_label', __( 'View Detail', 'addonify-quick-views' ));
+		$btn_label = $this->get_db_values( 'view_detail_btn_label', __( 'View Detail', 'addonify-quick-view' ));
 
 		if( ! $btn_label ) return;
 

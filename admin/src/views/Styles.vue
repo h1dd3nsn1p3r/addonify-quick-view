@@ -1,22 +1,15 @@
-<script>
+<script setup>
 	import Navigation from "../components/Navigation.vue";
 	import StyleForm from "../components/form/Styles.vue";
-	export default {
-		name: "Styles",
-		components: {
-			Navigation,
-			StyleForm,
-		},
-	};
 </script>
 
 <template>
 	<section class="adfy-container">
 		<main class="adfy-columns main-content">
-			<aside class="adfy-col start aside">
+			<aside class="adfy-col start aside site-secondary">
 				<Navigation />
 			</aside>
-			<section class="adfy-col end">
+			<section class="adfy-col end site-primary">
 				<StyleForm />
 			</section>
 		</main>

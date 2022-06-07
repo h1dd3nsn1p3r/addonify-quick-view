@@ -47,10 +47,10 @@ function addonify_quick_view_settings_defaults() {
         // Styles
         'enable_plugin_styles' => false,
         'modal_box_overlay_background_color' => 'rgba(0, 0, 0, 0.8)',
-        'modal_box_background_color' => '#ffffff',
+        'modal_box_background_color' => 'rgba(255, 255, 255, 1)',
         'product_title_color' => 'rgba(0, 0, 0, 1)',
-        'product_rating_empty_color' => 'rgba(147, 147, 147, 1)',
-        'product_is_rated_color' => 'rgba(245, 196, 14, 1)',
+        'product_rating_star_empty_color' => 'rgba(147, 147, 147, 1)',
+        'product_rating_star_filled_color' => 'rgba(245, 196, 14, 1)',
         'product_price_color' => 'rgba(0, 0, 0, 1)',
         'product_on_sale_price_color' => 'rgba(255, 0, 0, 1)',
         'product_excerpt_text_color' => 'rgba(0, 0, 0, 1)',
@@ -135,6 +135,9 @@ function addonify_quick_view_get_setting( $setting_id = '' ) {
         if (  isset( $defaults[ $key ] ) ) {
 
             switch ( $field_type ) {
+                case 'text':
+                    $key_values[ $key ] = get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] );
+                    break;
                 case 'checkbox':
                     $multi = ( isset( $value[ 'multi' ] )  && $value['multi'] == true ) ? true : false;
 
@@ -147,6 +150,7 @@ function addonify_quick_view_get_setting( $setting_id = '' ) {
                     break;
                 case 'select':
                     $key_values[ $key ] = ( get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] ) == '' ) ? 'Choose value' : get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] );
+                    break;
                 default:
                     $key_values[ $key ] = get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] );
             }    
@@ -187,7 +191,6 @@ function addonify_quick_view_get_button_fields() {
             'label' => __('Button position', 'addonify-quick-view' ),
             'description' => 'Choose where you want to show the quick view button.',
             'type'  => 'select',
-            //'value' => addonify_quick_view_get_setting( 'quick_view_btn_position' ),
             'choices' => [
                 'after_add_to_cart_button' => __( 'After add to cart button', 'addonify-quick-view' ),
                 'before_add_to_cart_button' => __( 'Before add to cart button', 'addonify-quick-view' ),
@@ -197,7 +200,6 @@ function addonify_quick_view_get_button_fields() {
         'quick_view_btn_label' => [
             'label' => __('Button label', 'addonify-quick-view' ),
             'type'  => 'text',
-            //'value' => addonify_quick_view_get_setting( 'quick_view_btn_label' ),
         ]
     ];
 
@@ -273,127 +275,196 @@ function addonify_quick_view_get_general_styles() {
 
     $fields = [
         'enable_plugin_styles' => [
-            'label'			=> __('Enable pugin styles', 'addonify-quick-view' ),
-            'description'     => __( 'If enabled, the colors selected below will be applied to the quick view modal & elements.', 'addonify-quick-view' ),
-            'badge'           => __('Optional', 'addonify-quick-view' ),
-            'tooltip'         => __('If enabled you may experience issue with your theme styles.', 'addonify-quick-view' ),
-            'type'            => 'checkbox',
+            'label'			    => __('Enable pugin styles', 'addonify-quick-view' ),
+            'description'       => __( 'If enabled, the colors selected below will be applied to the quick view modal & elements.', 'addonify-quick-view' ),
+            'badge'             => __('Optional', 'addonify-quick-view' ),
+            'tooltip'           => __('If enabled you may experience issue with your theme styles.', 'addonify-quick-view' ),
+            'type'              => 'checkbox',
         ],
     ];
 
     return $fields;
 }
+add_filter( 'addonify_quick_view/settings_fields', function( $fields ) {
+
+    $modal_box_fields = addonify_quick_view_get_general_styles();
+
+    $fields = array_merge( $fields, $modal_box_fields );
+
+    return $fields;
+});
+
 
 function addonify_quick_view_get_modal_styles() {
 
     $fields = [
         'modal_box_overlay_background_color' => [
-            'label'			=> __('Modal box overlay background color', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
+            'label'           => __('Modal overlay background', 'addonify-quick-view' ),
             'type'            => 'text',
         ],
         'modal_box_background_color' => [
-            'label'			=> __('Modal box background color', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'product_title_color' => [
-            'label'			=> __('Product title color', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'product_rating_empty_color' => [
-            'label'			=> __('Product is not rated color', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'product_is_rated_color' => [
-            'label'			=> __('Product is rated color', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'product_price_color' => [
-            'label'			=> __('Product price color', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'product_on_sale_price_color' => [
-            'label'			=> __('Product on sale color', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'product_excerpt_text_color' => [
-            'label'			=> __('Product excerpt text color', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'product_meta_text_color' => [
-            'label'			=> __('Product meta text color', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'product_meta_text_hover_color' => [
-            'label'			=> __('Product meta text on hover color', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'modal_close_button_text_color' => [
-            'label'			=> __('Modal close button text color', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'modal_close_button_text_hover_color' => [
-            'label'			=> __('Modal close button text color on hover', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'modal_close_button_background_color' => [
-            'label'			=> __('Modal close button background color', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'modal_close_button_background_hover_color' => [
-            'label'			=> __('Modal close button background color on hover', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'modal_misc_buttons_text_color' => [
-            'label'			=> __('Modal misc buttons text color', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'modal_misc_buttons_text_hover_color' => [
-            'label'			=> __('Modal misc buttons text color on hover', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'modal_misc_buttons_background_color' => [
-            'label'			=> __('Modal misc buttons background color', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'text',
-        ],
-        'modal_misc_buttons_background_hover_color' => [
-            'label'			=> __('Modal misc buttons background color on hover', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
+            'label'			  => __('Modal box inner background', 'addonify-quick-view' ),
             'type'            => 'text',
         ],
     ];
 
     return $fields;
 }
+
+add_filter( 'addonify_quick_view/settings_fields', function( $fields ) {
+
+    $modal_box_fields = addonify_quick_view_get_modal_styles();
+
+    $fields = array_merge( $fields, $modal_box_fields );
+
+    return $fields;
+});
+
+
+function addonify_quick_view_get_modal_box_product_styles() {
+
+    $fields = [
+
+        'product_title_color' => [
+            'label'			  => __('Title text', 'addonify-quick-view'),
+            'description'     => '',
+            'type'            => 'text', 
+        ],
+        'product_rating_star_empty_color' => [
+            'label'			  => __('Rating star empty', 'addonify-quick-view'),
+            'type'            => 'text', 
+        ],
+        'product_rating_star_filled_color' => [
+            'label'			  => __('Rating star filled', 'addonify-quick-view'),
+            'type'            => 'text', 
+        ],
+        'product_price_color' => [
+            'label'			  => __('Regular price', 'addonify-quick-view'),
+            'type'            => 'text', 
+        ],
+        'product_on_sale_price_color' => [
+            'label'			  => __('On-sale price', 'addonify-quick-view'),
+            'type'            => 'text', 
+        ],
+        'product_excerpt_text_color' => [
+            'label'			  => __('Excerpt text', 'addonify-quick-view'),
+            'description'     => '',
+            'type'            => 'text', 
+        ],
+        'product_meta_text_color' => [
+            'label'			  => __('Meta text', 'addonify-quick-view'),
+            'type'            => 'text',
+        ],
+        'product_meta_text_hover_color' => [
+            'label'			  => __('Meta text on hover', 'addonify-quick-view'),
+            'type'            => 'text', 
+        ],
+    ];
+
+    return $fields;
+}
+
+add_filter( 'addonify_quick_view/settings_fields', function( $fields ) {
+
+    $modal_box_fields = addonify_quick_view_get_modal_box_product_styles();
+
+    $fields = array_merge( $fields, $modal_box_fields );
+
+    return $fields;
+});
+
+
+function addonify_quick_view_get_modal_close_button_styles() {
+
+    $fields = [
+
+        'modal_close_button_text_color' => [
+            'label'			=> __('Default text', 'addonify-quick-view'),
+            'type'            => 'text',
+        ],
+        'modal_close_button_text_hover_color' => [
+            'label'			  => __('Text on mouse hover', 'addonify-quick-view'),
+            'type'            => 'text', 
+        ],
+        'modal_close_button_background_color' => [
+            'label'			  => __('Default background', 'addonify-quick-view'),
+            'type'            => 'text', 
+        ],
+        'modal_close_button_background_hover_color' => [
+            'label'			  => __('Background on mouse hover', 'addonify-quick-view'),
+            'type'            => 'text', 
+        ],
+    ];
+
+    return $fields;
+}
+
+add_filter( 'addonify_quick_view/settings_fields', function( $fields ) {
+
+    $modal_box_fields = addonify_quick_view_get_modal_close_button_styles();
+
+    $fields = array_merge( $fields, $modal_box_fields );
+
+    return $fields;
+});
+
+
+function addonify_quick_view_get_modal_misc_button_styles() {
+
+    $fields = [
+
+         'modal_misc_buttons_text_color' => [
+            'label'			  => __('Default text', 'addonify-quick-view'),
+            'type'            => 'text',
+        ],
+        'modal_misc_buttons_text_hover_color' => [
+            'label'			  => __('Text on mouse hover', 'addonify-quick-view'),
+            'type'            => 'text', 
+        ],
+        'modal_misc_buttons_background_color' => [
+            'label'			  => __('Default background', 'addonify-quick-view'),
+            'type'            => 'text', 
+        ],
+        'modal_misc_buttons_background_hover_color' => [
+            'label'			  => __('Background on mouse hover', 'addonify-quick-view'),
+            'type'            => 'text', 
+        ],
+    ];
+
+    return $fields;
+}
+
+add_filter( 'addonify_quick_view/settings_fields', function( $fields ) {
+
+    $modal_box_fields = addonify_quick_view_get_modal_misc_button_styles();
+
+    $fields = array_merge( $fields, $modal_box_fields );
+
+    return $fields;
+});
+
 
 function addonify_quick_view_get_custom_css_box() {
 
     $fields = [
         'custom_css' => [
-            'label'			=> __('Custom CSS', 'addonify-quick-view' ),
-            'description'     => 'LOL.',
-            'type'            => 'textarea',
+            'label'			    => __('Custom CSS', 'addonify-quick-view' ),
+            'description'       => __('If required, you may add your own custom CSS code here.', 'addonify-quick-view' ),
+            'type'              => 'textarea',
         ],
     ];
 
     return $fields;
 }
+
+add_filter( 'addonify_quick_view/settings_fields', function( $fields ) {
+
+    $modal_box_fields = addonify_quick_view_get_custom_css_box();
+
+    $fields = array_merge( $fields, $modal_box_fields );
+
+    return $fields;
+});
 
 /**
 *
@@ -407,8 +478,6 @@ function addonify_quick_view_get_options() {
         'settings_values' => addonify_quick_view_settings_values(),
         'tabs' => [
             'settings' => [
-                'icon' => '',
-                'name' => __('Settings', 'addonify-quick-view' ),
                 'sections' => [
                     'general' => [
                         'title' => __('General', 'addonify-quick-view' ),
@@ -428,8 +497,6 @@ function addonify_quick_view_get_options() {
                 ]
             ],
             'styles' => [
-                'icon' => '',
-                'name' => __('Styles', 'addonify-quick-view' ),
                 'sections' => [
                     'general' => [
                         'title' => __('General', 'addonify-quick-view' ),
@@ -437,9 +504,25 @@ function addonify_quick_view_get_options() {
                         'fields' => addonify_quick_view_get_general_styles(),
                     ],
                     'modal' => [
-                        'title' => __('Modal Box & Contents Styles', 'addonify-quick-view' ),
-                        'description' => '',
+                        'title' => __('Modal Box Colors', 'addonify-quick-view' ),
+                        'description' => 'Change the colors of modal box & overlay
+								background.',
                         'fields' => addonify_quick_view_get_modal_styles(),
+                    ],
+                    'product' => [
+                        'title' => __('Product Info Colors', 'addonify-quick-view' ),
+                        'description' => 'Change the way the product title, meta, excerpt & price looks on modal.',
+                        'fields' => addonify_quick_view_get_modal_box_product_styles(),
+                    ],
+                    'close_button' => [
+                        'title' => __('Close Button Colors', 'addonify-quick-view' ),
+                        'description' => 'Change the look & feel of close modal box button.',
+                        'fields' => addonify_quick_view_get_modal_close_button_styles(),
+                    ],
+                    'misc_buttons' => [
+                        'title' => __('Miscellaneous Buttons Colors', 'addonify-quick-view' ),
+                        'description' => 'Tweak how miscellaneous buttons look on modal box.',
+                        'fields' => addonify_quick_view_get_modal_misc_button_styles(),
                     ],
                     'custom_css' => [
                         'title' => __('Developer', 'addonify-quick-view' ),
@@ -447,22 +530,13 @@ function addonify_quick_view_get_options() {
                         'fields' => addonify_quick_view_get_custom_css_box(), 
                     ]
                 ]
-                
             ],
             'products' => [
-                'icon' => '',
-                'name' => __('Products', 'addonify-quick-view' ),
                 'recommended' => [
 
                     // Recommend plugins here.
                     'content' => __('Coming soon....', 'addonify-quick-view' ),
                 ]
-            ],
-            'route_404' => [
-
-                // 404 error page.
-                'text' => __('Error 404. Page not found.', 'addonify-quick-view' ),
-                'button' => __('Go back', 'addonify-quick-view' ),
             ],
         ],
     ];
@@ -471,7 +545,6 @@ function addonify_quick_view_get_options() {
 
     return $options;    
 }
-
 
 function sanitize_multi_choices( $args ) {
     
@@ -507,8 +580,6 @@ function addonify_quick_view_update_settings( $settings ) {
                     case 'checkbox':
                         $is_multi = ( isset( $settings_fields[ $key ][ 'multi' ] ) && $settings_fields[ $key ][ 'multi' ] == true ) ? true : false;
 
-                        
-
                         //return $settings_fields[ $key ][ 'multi' ];
 
                         if ( $is_multi ) {
@@ -534,6 +605,7 @@ function addonify_quick_view_update_settings( $settings ) {
                         }
                         break;
                     default:
+                        $value = sanitize_text_field( $value );
                         break;
                 }
 

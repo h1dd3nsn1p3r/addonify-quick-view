@@ -5,14 +5,15 @@
 				<p class="text">
 					© {{ thisYear }} Addonify Quick View
 					<span class="version"
-						>{{ versionText }}: {{ versionNumber }}</span
+						>{{ __("Version", "addonify-quick-view") }}:
+						{{ versionNumber }}</span
 					>
 				</p>
 			</div>
 			<div class="adfy-col right">
 				<p class="text">
 					<a href="#" class="adfy-link" target="_blank">
-						{{ rate }}
+						{{ __("Rate", "addonify-quick-view") }}
 						<span class="icon">
 							<i class="dashicons dashicons-star-filled"></i>
 							<i class="dashicons dashicons-star-filled"></i>
@@ -28,8 +29,7 @@
 	</footer>
 </template>
 <script setup>
-	let rate = adfy_wp_locolizer.rate;
-	let versionText = adfy_wp_locolizer.version;
+	let { __, _x, _n, _nx } = wp.i18n;
 	let versionNumber = adfy_wp_locolizer.version_number;
 	let thisYear = new Date().getFullYear();
 </script>
