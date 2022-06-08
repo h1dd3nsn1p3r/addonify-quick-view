@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios';
-import _ from 'lodash';
+let { isEqual, cloneDeep } = lodash;
 import { ElMessage } from 'element-plus'
 
 let BASE_API_URL = adfy_wp_locolizer.api_url;
@@ -24,7 +24,7 @@ export const useOptionsStore = defineStore({
         // ⚡️ Check if we need to save the options.
         needSave: (state) => {
 
-            return !_.isEqual(state.options, oldOptions) ? true : false;
+            return !isEqual(state.options, oldOptions) ? true : false;
         },
     },
     actions: {
@@ -38,7 +38,7 @@ export const useOptionsStore = defineStore({
                 let settingsValues = res.data.settings_values;
                 this.data = res.data.tabs;
                 this.options = settingsValues;
-                oldOptions = _.cloneDeep(settingsValues);
+                oldOptions = cloneDeep(settingsValues);
                 this.isLoading = false;
 
             } catch (err) {
@@ -56,7 +56,7 @@ export const useOptionsStore = defineStore({
 
             Object.keys(changedOptions).map(key => {
 
-                if (!_.isEqual(changedOptions[key], oldOptions[key])) {
+                if (!isEqual(changedOptions[key], oldOptions[key])) {
                     payload[key] = changedOptions[key];
                 }
             });

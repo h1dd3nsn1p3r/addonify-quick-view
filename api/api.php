@@ -24,9 +24,7 @@ function addonify_quick_view_api_init() {
             array(
                 'methods'   => \WP_REST_Server::CREATABLE,
                 'callback'  => 'addonify_quick_view_update_options_rest_handler',
-                //'permission_callback' => function() {
-                //    return current_user_can( 'manage_options' );
-                //}
+                'permission_callback' => '__return_true'
             )
         )
     );

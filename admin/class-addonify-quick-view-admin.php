@@ -74,7 +74,7 @@ class Addonify_Quick_View_Admin {
 			wp_enqueue_script( 'manifest', plugin_dir_url( __FILE__ ) . 'assets/js/manifest.js', null, $this->version, true );
 			wp_enqueue_script( 'vendor', plugin_dir_url( __FILE__ ) . 'assets/js/vendor.js', ['manifest'], $this->version, true );
 
-			wp_enqueue_script( 'main', plugin_dir_url( __FILE__ ) . 'assets/js/main.js', ['vendor', 'wp-i18n'], $this->version, true );
+			wp_enqueue_script( 'main', plugin_dir_url( __FILE__ ) . 'assets/js/main.js', ['lodash', 'vendor', 'wp-i18n'], $this->version, true );
 
 			wp_set_script_translations( 'main', $this->plugin_name );
 
