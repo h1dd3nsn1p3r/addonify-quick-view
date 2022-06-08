@@ -35,7 +35,7 @@ function addonify_quick_view_settings_defaults() {
 
     $defaults = [
         // Options
-        'enable_quick_view' => false,
+        'enable_quick_view' => true,
         'quick_view_btn_position' => 'after_add_to_cart_button',
         'quick_view_btn_label' => __( 'Quick view', 'addonify-quick-view' ),
         'modal_box_content' => serialize(['image', 'title', 'price', 'add_to_cart', 'rating' ]),

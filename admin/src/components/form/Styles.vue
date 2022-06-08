@@ -91,6 +91,7 @@
 											.modal_box_overlay_background_color
 									"
 									show-alpha
+									@active-change="changedColor"
 								/>
 								<span>
 									{{
