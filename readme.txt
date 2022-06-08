@@ -5,7 +5,7 @@ Donate link: https://addonify.com/contact/
 Tags:  woocommerce, quick view, woocommerce quick view, products quick view
 Requires at least: 5.0.0
 Tested up to: 5.9.2
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,6 +61,11 @@ If you have suggestions about how to improve Addonify WooCommerce Quick View ple
 3. Addonify quick view modal window.
 
 == Changelog ==
+
+= 1.0.7 - 08 June, 2022 =
+
+- Updated: Setting page. Build with Vue Js 3
+- Added: Rest API endpoint for setting page.
 
 = 1.0.6 - 29 March, 2022 =
 
