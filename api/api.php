@@ -40,7 +40,7 @@ function addonify_quick_view_settings_defaults() {
         'enable_quick_view' => false,
         'quick_view_btn_position' => 'after_add_to_cart_button',
         'quick_view_btn_label' => __( 'Quick view', 'addonify-quick-view' ),
-        'modal_box_content' => ['image', 'title', 'price', 'add_to_cart', 'rating' ],
+        'modal_box_content' => serialize(['image', 'title', 'price', 'add_to_cart', 'rating' ]),
         'product_thumbnail' => 'product_image_only',
         'enable_lightbox' => false,
         'display_read_more_button' => false,
