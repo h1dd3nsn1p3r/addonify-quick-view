@@ -1,5 +1,5 @@
 <script setup>
-	import { ref, onMounted } from "vue";
+	import { onMounted } from "vue";
 	import Loading from "../Loading.vue";
 	import { Check, Close } from "@element-plus/icons-vue";
 	import { useOptionsStore } from "../../stores/options";
