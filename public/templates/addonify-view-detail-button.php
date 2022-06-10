@@ -1,8 +1,8 @@
 <?php
 /**
- * Display quick view button in product loop.
+ * Display view detail button in quick view modal.
  *
- * This template can be overridden by copying it to yourtheme/addonify/addonify-quick-view-button.php.
+ * This template can be overridden by copying it to yourtheme/addonify/addonify-view-detail-button.php.
  *
  * HOWEVER, on occasion WooCommerce will need to update template files and you
  * (the theme developer) will need to copy the new files to your theme to
@@ -18,12 +18,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-echo apply_filters(
-    'addonify_quick_view/quick_view_button', 
+echo apply_filters( 
+    'addonify_quick_view/view_detail_button',
     sprintf(
-        '<button type="button" class="addonify-qvm-button button %s" data-product_id="%s" rel="nofollow" >%s</button>',
-        esc_attr($args['css_class']),
-        esc_attr( $args['product_id'] ),
-        $args['label']
-    )
+        '<a href="%s" class="button" >%s</a>',
+        get_the_permalink($args['post_id']),
+        $args['btn_label']
+    )    
 );
