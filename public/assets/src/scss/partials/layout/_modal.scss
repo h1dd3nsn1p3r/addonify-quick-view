@@ -2,28 +2,6 @@
 	Quick view modal
   -------------------------------------------------------------------------- */
 
-.addonify-overlay-buttons {
-
-    position: relative;
-
-    .addonify-overlay-btn-wrapper {
-
-        position: absolute;
-        width: 100%;
-        top: 0;
-        left: 0;
-        background: #111111;
-        opacity: 0;
-        transition: 0.5s;
-        flex-direction: column;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
-
-// modal outer
-
 #addonify-quick-view-modal {
 	
 	display: block;

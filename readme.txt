@@ -23,22 +23,22 @@ Below are the features of Addonify WooCommerce Quick View.
 
 **MAIN FEATURES:**
 
-* Easy to use.
-* Light-weight & optimized. 
-* Add a quick view button in product loop to open a modal window with the product summary using ajax.
-* Product image or product gallery, title, price, quantity, read more button and add to cart button will be shown on quick view modal popup.
-* Color option for quick view modal popup.
-* Color option for elements inside quick view modal popup box.
-* Change a label for the “Quick view” & "Read more" buttons.
-* Developer friendly & easy to implement according to your need
-* Friendly support
+✅ Easy to use.
+✅ Light-weight & optimized. 
+✅ Add a quick view button in product loop to open a modal window with the product summary using ajax.
+✅ Product image or product gallery, title, price, quantity, read more button and add to cart button will be shown on quick view modal popup.
+✅ Color option for quick view modal popup.
+✅ Color option for elements inside quick view modal popup box.
+✅ Change a label for the “Quick view” & "Read more" buttons.
+✅ Developer friendly & easy to implement according to your need.
+✅ Friendly support.
 
 **DEVELOPER DOCUMENTATION:**
 
 If you are a developer or a theme author, below are the different ways on how Addonify WooCommerce Quick View can be implemented in your project. 
 
-* Using Hooks and filters
-* Overriding plugin template file 
+🔗 Using hooks and filters.
+📔 Overriding plugin template file. 
 
 If you need a getting started guide, do feel free to check [developer documentation guide](https://docs.addonify.com/docs/woocommerce-quick-view/) in our docs site.
 
