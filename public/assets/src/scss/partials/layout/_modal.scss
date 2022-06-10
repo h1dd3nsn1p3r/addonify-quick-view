@@ -37,7 +37,7 @@
     overflow-x: hidden;
     overflow-y: auto;
 	border-radius: 10px;
-    background-color: white;
+    background-color: var(--addonify_qv_modal_background);
     @include mild_box_shadow();
     @include transation_delay();
 }
@@ -126,19 +126,26 @@
 
 #addonify-quick-view-modal #addonify-qvm-close-button {
 
-	color: #000000;
-}
+	fill: var(--addonify_qv_close_button_text);
+	color: var(--addonify_qv_close_button_text);
 
-#addonify-quick-view-modal #addonify-qvm-close-button svg {
+	svg {
 
-	line-height: 30px;
-    height: 30px;
-    width: 18px;
+		line-height: 30px;
+    	height: 30px;
+    	width: 18px;
+	}
+
+	&:hover {
+
+		fill: var(--addonify_qv_close_button_text_hover);
+		color: var(--addonify_qv_close_button_text_hover);
+	}
 }
 
 .addonify-qvm-overlay-button {
 
-	position:relative; // case when quick view button is in overlay
+	position:relative; // Case when quick view button is in overlay.
 }
 
 .addonify-qvm-overlay-button .addonify-qvm-button {
