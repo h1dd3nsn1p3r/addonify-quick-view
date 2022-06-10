@@ -35,6 +35,7 @@ mix.disableNotifications();
 /**
  * Setup public path to generate assets
  */
+
 mix.setPublicPath('admin/assets/');
 
 /**
@@ -45,9 +46,10 @@ mix.autoload({
 });
 
 /**
- * Compile JavaScript
+ * Compile admin assets.
  */
 mix.js('admin/src/main.js', 'admin/assets/js/main.js').vue();
+mix.sass('admin/assets/scss/index.scss', 'admin/assets/css/admin.css');
 
 /**
 * Extract Vendor
@@ -55,8 +57,3 @@ mix.js('admin/src/main.js', 'admin/assets/js/main.js').vue();
 */
 
 mix.extract();
-
-/**
- * Compile SCSS
- */
-mix.sass('admin/assets/scss/index.scss', 'admin/assets/css/admin.css');
