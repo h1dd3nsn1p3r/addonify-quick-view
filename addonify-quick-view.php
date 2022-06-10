@@ -71,22 +71,14 @@ require plugin_dir_path( __FILE__ ) . 'api/api.php';
  *
  * @since    1.0.0
  */
+if ( ! function_exists( 'run_addonify_quick_view' ) ) {
+	
+	function run_addonify_quick_view() {
 
-function run_addonify_quick_view() {
+		$plugin = new Addonify_Quick_View();
+		$plugin->run();
 
-	$plugin = new Addonify_Quick_View();
-	$plugin->run();
+	}
 
+	run_addonify_quick_view();
 }
-
-run_addonify_quick_view();
-
-
-add_action( 'wp_body_open', function() {
-
-	//update_option( ADDONIFY_DB_INITIALS. 'enable_quick_view', false );
-	//var_dump( get_option( ADDONIFY_DB_INITIALS. 'quick_view_btn_label', 'Quick Values' ) );
-	//var_dump( addonify_quick_view_get_setting() );
-
-	// var_dump( addonify_quick_view_settings_fields() );
-} );

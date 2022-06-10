@@ -1,17 +1,21 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 add_action( 'rest_api_init', 'addonify_quick_view_api_init' );
 
 function addonify_quick_view_api_init() {
 
-    $namespace = 'addonify_quick_view_options_api/';
+    $namespace = 'addonify_quick_view_options_api';
 
     register_rest_route(
         $namespace,
-        'get_options',
+        '/get_options',
         array(
             array(
                 'methods'   => 'GET',
+                'permission_callback' => '__return_true',
                 'callback'  => 'addonify_quick_view_get_options'
             )
         )
@@ -19,7 +23,7 @@ function addonify_quick_view_api_init() {
 
     register_rest_route(
         $namespace,
-        'update_options',
+        '/update_options',
         array(
             array(
                 'methods'   => \WP_REST_Server::CREATABLE,
@@ -35,13 +39,14 @@ function addonify_quick_view_settings_defaults() {
 
     $defaults = [
         // Options
-        'enable_quick_view' => true,
+        'enable_quick_view' => false,
         'quick_view_btn_position' => 'after_add_to_cart_button',
         'quick_view_btn_label' => __( 'Quick view', 'addonify-quick-view' ),
         'modal_box_content' => serialize(['image', 'title', 'price', 'add_to_cart', 'rating' ]),
         'product_thumbnail' => 'product_image_only',
         'enable_lightbox' => false,
         'display_read_more_button' => false,
+        'read_more_button_label' => __( 'View Detail', 'addonify-quick-view' ),
         // Styles
         'enable_plugin_styles' => false,
         'modal_box_overlay_background_color' => 'rgba(0, 0, 0, 0.8)',
@@ -124,38 +129,46 @@ function addonify_quick_view_get_setting( $setting_id = '' ) {
 
     $defaults = addonify_quick_view_settings_defaults();
 
-    $key_values = [];
+    if ( $setting_id ) {
+        
+        return get_option( ADDONIFY_DB_INITIALS . $setting_id, $defaults[ $setting_id ] );
+    } else {
 
-    foreach ( $setting_fields as $key => $value ) {
+        $key_values = [];
 
-        $field_type = $value['type'];
+        foreach ( $setting_fields as $key => $value ) {
 
-        if (  isset( $defaults[ $key ] ) ) {
+            $field_type = $value['type'];
 
-            switch ( $field_type ) {
-                case 'text':
-                    $key_values[ $key ] = get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] );
-                    break;
-                case 'checkbox':
-                    $multi = ( isset( $value[ 'multi' ] )  && $value['multi'] == true ) ? true : false;
+            if (  isset( $defaults[ $key ] ) ) {
 
-                    if ( $multi ) {
-                        $key_values[ $key ] = ( get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] ) ) ? unserialize( get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] ) ): [];
-                    } else {
-                        $key_values[ $key ] = ( get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] ) == '1' ) ? true : false;
-                    }
-                    
-                    break;
-                case 'select':
-                    $key_values[ $key ] = ( get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] ) == '' ) ? 'Choose value' : get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] );
-                    break;
-                default:
-                    $key_values[ $key ] = get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] );
+                switch ( $field_type ) {
+                    case 'text':
+                        $key_values[ $key ] = get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] );
+                        break;
+                    case 'checkbox':
+                        $multi = ( isset( $value[ 'multi' ] )  && $value['multi'] == true ) ? true : false;
+
+                        if ( $multi ) {
+                            $key_values[ $key ] = ( get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] ) ) ? unserialize( get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] ) ): [];
+                        } else {
+                            $key_values[ $key ] = ( get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] ) == '1' ) ? true : false;
+                        }
+                        
+                        break;
+                    case 'select':
+                        $key_values[ $key ] = ( get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] ) == '' ) ? 'Choose value' : get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] );
+                        break;
+                    default:
+                        $key_values[ $key ] = get_option( ADDONIFY_DB_INITIALS . $key, $defaults[ $key ] );
+                }    
             }    
-        }    
-    }  
+        }  
 
-    return $key_values;
+        return $key_values;
+    }
+
+    
 
     //if ( $setting_id ) {
 
@@ -191,7 +204,7 @@ function addonify_quick_view_get_button_fields() {
             'type'  => 'select',
             'choices' => [
                 'after_add_to_cart_button' => __( 'After add to cart button', 'addonify-quick-view' ),
-                'before_add_to_cart_button' => __( 'Before add to cart button', 'addonify-quick-view' ),
+                'before_add_to_cart_button' => __( 'Before add to cart button', 'addonify-quick-view' )
             ]
         ],
 
