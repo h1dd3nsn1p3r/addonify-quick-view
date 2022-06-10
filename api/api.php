@@ -49,7 +49,7 @@ function addonify_quick_view_settings_defaults() {
         'read_more_button_label' => __( 'View Detail', 'addonify-quick-view' ),
         // Styles
         'enable_plugin_styles' => false,
-        'modal_box_overlay_background_color' => 'rgba(0, 0, 0, 0.8)',
+        'modal_box_overlay_background_color' => 'rgba(255, 255, 255, 0.95)',
         'modal_box_background_color' => 'rgba(255, 255, 255, 1)',
         'product_title_color' => 'rgba(0, 0, 0, 1)',
         'product_rating_star_empty_color' => 'rgba(147, 147, 147, 1)',

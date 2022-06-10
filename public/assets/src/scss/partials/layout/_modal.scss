@@ -10,19 +10,19 @@
     opacity: 0;
     @include position_topnleft();
     z-index: 100000000;
-    width: 1000px;
-    height: 80vh;
+    width: 100%;
+	max-width: 1000px;
+	min-height: 400px;
+    max-height: 80vh;
     overflow-x: hidden;
     overflow-y: auto;
 	border-radius: 10px;
     background-color: var(--addonify_qv_modal_background);
-    @include mild_box_shadow();
+    box-shadow: 0 0 65px rgba(0, 0, 0, 0.10);
     @include transation_delay();
 }
 
-// modal overlay mask 
-
-.adfy-quick-view-overlay {
+#addonify-quick-view-overlay {
 	
 	display: block;
 	position: fixed;
@@ -32,6 +32,7 @@
     visibility: hidden;
 	z-index: 10000000;
 	@include overlay();
+	background-color: var(--addonify_qv_modal_overlay_background);
 }
 
 .addonify-qvm-is-active {
@@ -39,8 +40,8 @@
 	overflow: hidden;
 }
 
-.addonify-qvm-is-active .adfy-quick-view-overlay,
-.addonify-qvm-is-active #addonify-quick-view-modal {
+.addonify-qvm-is-active #addonify-quick-view-modal,
+.addonify-qvm-is-active #addonify-quick-view-overlay {
 
 	visibility: visible;
     opacity: 1;
@@ -61,13 +62,15 @@
 
 .adfy-qvm-head {
 
-	position:absolute;
-	top:10px;
-	right:10px;
-	z-index:10;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 10;
 }
 
-// spinner 
+/* -------------------------------------------------------------------------- 
+	Spinner
+  -------------------------------------------------------------------------- */
 
 #addonify-quick-view-modal #adfy-qvm-spinner {
 	
@@ -94,18 +97,16 @@
 	visibility: hidden;
 }
 
-// modal content 
+/* -------------------------------------------------------------------------- 
+	Modal box close button
+  -------------------------------------------------------------------------- */
 
-.adfy-quick-view-modal-content {
-
-	position: relative;
-	padding: 40px 30px;
-}
-
-#addonify-quick-view-modal #addonify-qvm-close-button {
+#addonify-qvm-close-button {
 
 	fill: var(--addonify_qv_close_button_text);
 	color: var(--addonify_qv_close_button_text);
+	background-color: var(--addonify_qv_close_button_background);
+	border-radius: 100%;
 
 	svg {
 
@@ -118,30 +119,35 @@
 
 		fill: var(--addonify_qv_close_button_text_hover);
 		color: var(--addonify_qv_close_button_text_hover);
+		background-color: var(--addonify_qv_close_button_background_hover);
 	}
 }
 
-.addonify-qvm-overlay-button {
 
-	position:relative; // Case when quick view button is in overlay.
+/* -------------------------------------------------------------------------- 
+	Modal box inner
+  -------------------------------------------------------------------------- */
+
+#addonify-quick-view-modal .adfy-quick-view-modal-content {
+
+	position: relative;
+	padding: 40px 30px;
 }
 
-.addonify-qvm-overlay-button .addonify-qvm-button {
+#addonify-quick-view-modal {
 
-	display: block;
-	position: absolute;
-	@include position_topnleft();
-	z-index: -1;
-	visibility: hidden;
-	opacity: 0;
-	@include transation_delay();
-}
+	.woocommerce {
 
-.addonify-qvm-overlay-button:hover .addonify-qvm-button {
+		.product_title {
 
-	visibility: visible;
-	opacity: 1;
-	z-index: 100;
+		
+		}
+
+		.star-rating {
+
+
+		}
+	}
 }
 
 #addonify-quick-view-modal .single-product div.product .summary,

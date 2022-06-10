@@ -35,4 +35,4 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div><!-- // adfy-quick-view-modal-content -->
     </div><!-- // adfy-quick-view-model-inner -->
 </div><!-- // addonify-quick-view-modal -->
-<div class="adfy-quick-view-overlay"></div>
+<aside id="addonify-quick-view-overlay" class="adfy-quick-view-overlay"></aside>
