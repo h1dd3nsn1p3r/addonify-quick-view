@@ -4,7 +4,7 @@
 
   :root {
 
-    --addonify_qv_modal_overlay_background: rgba(0, 0, 0, 0.8);
+    --addonify_qv_modal_overlay_background: rgba(255, 255, 255, 0.95);
     --addonify_qv_modal_background: rgba(255, 255, 255, 1);
 
     // Product
@@ -18,10 +18,10 @@
     --addonify_qv_product_meta_hover: rgba(2, 134, 231, 1);
 
     // Close button
-    --addonify_qv_close_button_text: rgba(255, 255, 255, 1);
-    --addonify_qv_close_button_text_hover: rgba(255, 255, 255, 1);
-    --addonify_qv_close_button_background: rgba(0, 0, 0, 1);
-    --addonify_qv_close_button_background_hover: rgba(2, 134, 231, 1);
+    --addonify_qv_close_button_text: rgba(0, 0, 0, 1);
+    --addonify_qv_close_button_text_hover: rgba(2, 134, 231, 1);
+    --addonify_qv_close_button_background: rgba(255, 255, 255, 0);
+    --addonify_qv_close_button_background_hover: rgba(255, 255, 255, 0);
 
     // Misc buttons
     --addonify_qv_misc_button_text: rgba(255, 255, 255, 1);
