@@ -190,6 +190,12 @@
     background-color: currentColor;
 }
 
+.adfy-button.fake-button.has-underline:hover {
+
+    fill: var(--cc_primary_color);
+    color: var(--cc_primary_color);
+}
+
 .adfy-button.fake-button.has-underline:hover::before {
 
     transform: scale(1);
