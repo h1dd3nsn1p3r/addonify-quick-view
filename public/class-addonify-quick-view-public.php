@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The public-facing functionality of the plugin.
  *
@@ -54,7 +53,7 @@ class Addonify_Quick_View_Public {
 
 		if ( 
 			! class_exists( 'WooCommerce' ) ||
-			(int) addonify_quick_view_get_setting( 'enable_quick_view' ) !== 1
+			(int) addonify_quick_view_get_settings_fields_values( 'enable_quick_view' ) !== 1
 		) {
 			return;
 		}
@@ -64,11 +63,11 @@ class Addonify_Quick_View_Public {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// add "Quick View" button after add to cart button
-		if ( addonify_quick_view_get_setting( 'quick_view_btn_position' ) == 'before_add_to_cart_button' ) {
+		if ( addonify_quick_view_get_settings_fields_values( 'quick_view_btn_position' ) == 'before_add_to_cart_button' ) {
 			add_action( 'woocommerce_after_shop_loop_item', array( $this, 'quick_view_button_render_callback' ), 5 );
 		}
 		
-		if ( addonify_quick_view_get_setting( 'quick_view_btn_position' ) == 'after_add_to_cart_button' ) {
+		if ( addonify_quick_view_get_settings_fields_values( 'quick_view_btn_position' ) == 'after_add_to_cart_button' ) {
 			add_action( 'woocommerce_after_shop_loop_item', array( $this, 'quick_view_button_render_callback' ), 15 );
 		}
 
@@ -84,7 +83,7 @@ class Addonify_Quick_View_Public {
 
 
 		// show  or hide view details button
-		if ( (int) addonify_quick_view_get_setting( 'display_read_more_button' ) === 1 ) {
+		if ( (int) addonify_quick_view_get_settings_fields_values( 'display_read_more_button' ) === 1 ) {
 
 			add_action( 'addonify_qv_after_product_summary_content', array( $this, 'render_read_more_button' ) );
 		}
@@ -107,7 +106,7 @@ class Addonify_Quick_View_Public {
 
 			if ( current_theme_supports( 'wc-product-gallery-lightbox' ) ) {
 
-				if ( (int) addonify_quick_view_get_setting( 'enable_lightbox' ) === 1 ) {
+				if ( (int) addonify_quick_view_get_settings_fields_values( 'enable_lightbox' ) === 1 ) {
 					$style_dependency[] = 'photoswipe-default-skin';
 				}
 			}
@@ -122,17 +121,20 @@ class Addonify_Quick_View_Public {
 			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'assets/build/css/addonify-quick-view.css', $style_dependency, $this->version, 'all' );
 		}
 
-		$inline_css = $this->dynamic_css();
+		if ( (int) addonify_quick_view_get_settings_fields_values( 'enable_plugin_styles' ) === 1 ) {
 
-		$custom_css = addonify_quick_view_get_setting( 'custom_css' );
+			$inline_css = $this->dynamic_css();
 
-		if ( $custom_css ) {
-			$inline_css .= $custom_css;
+			$custom_css = addonify_quick_view_get_settings_fields_values( 'custom_css' );
+
+			if ( $custom_css ) {
+				$inline_css .= $custom_css;
+			}
+			
+			$inline_css = $this->minify_css( $inline_css );
+
+			wp_add_inline_style( $this->plugin_name, $inline_css );
 		}
-		
-		$inline_css = $this->minify_css( $inline_css );
-
-		wp_add_inline_style( $this->plugin_name, $inline_css );
 	}
 
 
@@ -154,7 +156,7 @@ class Addonify_Quick_View_Public {
 
 			if ( current_theme_supports( 'wc-product-gallery-lightbox' ) ) {
 
-				if ( (int) addonify_quick_view_get_setting( 'enable_lightbox' ) === 1 ) {
+				if ( (int) addonify_quick_view_get_settings_fields_values( 'enable_lightbox' ) === 1 ) {
 
 					$script_dependency[] = 'photoswipe-ui-default';
 
@@ -224,7 +226,7 @@ class Addonify_Quick_View_Public {
 		global $product;
 
 		// show compare btn after add to cart button
-		if ( addonify_quick_view_get_setting( 'quick_view_btn_label' ) ) {
+		if ( addonify_quick_view_get_settings_fields_values( 'quick_view_btn_label' ) ) {
 
 			ob_start();
 
@@ -233,7 +235,7 @@ class Addonify_Quick_View_Public {
 				false, 
 				array( 
 					'product_id' => $product->get_id(), 
-					'label' => addonify_quick_view_get_setting( 'quick_view_btn_label' ), 
+					'label' => addonify_quick_view_get_settings_fields_values( 'quick_view_btn_label' ), 
 					'css_class' => ''
 				) 
 			);
@@ -257,7 +259,7 @@ class Addonify_Quick_View_Public {
 	// called by get_quick_view_contents()
 	public function generate_contents() {
 
-		$modal_box_content = unserialize( addonify_quick_view_get_setting( 'modal_box_content' ) );
+		$modal_box_content = unserialize( addonify_quick_view_get_settings_fields_values( 'modal_box_content' ) );
 
 		if ( 
 			! is_array( $modal_box_content ) || 
@@ -271,7 +273,7 @@ class Addonify_Quick_View_Public {
 		if ( in_array( 'image', $modal_box_content ) ) {
 
 			// show or hide gallery thumbnails according to user choice
-			if ( addonify_quick_view_get_setting( 'product_thumbnail' ) == "product_image_only" ) {
+			if ( addonify_quick_view_get_settings_fields_values( 'product_thumbnail' ) == "product_image_only" ) {
 
 				$this->disable_gallery_thumbnails();
 			}
@@ -324,7 +326,7 @@ class Addonify_Quick_View_Public {
 	// view details button markups
 	public function render_read_more_button( $product_id ) {
 
-		$btn_label = addonify_quick_view_get_setting( 'read_more_button_label' );
+		$btn_label = addonify_quick_view_get_settings_fields_values( 'read_more_button_label' );
 
 		ob_start();
 
@@ -341,29 +343,27 @@ class Addonify_Quick_View_Public {
 		remove_action( 'woocommerce_product_thumbnails', 'woocommerce_show_product_thumbnails', 20 );
 	}
 
-
-
 	public function dynamic_css() {
 
 		$css_values = array(
-			'--addonify_qv_modal_overlay_background' => addonify_quick_view_get_setting( 'modal_box_overlay_background_color' ),
-			'--addonify_qv_modal_background' => addonify_quick_view_get_setting( 'modal_box_background_color' ),
-			'--addonify_qv_product_title' => addonify_quick_view_get_setting( 'product_title_color' ),
-			'--addonify_qv_product_excerpt' => addonify_quick_view_get_setting( 'product_excerpt_text_color' ),
-			'--addonify_qv_product_rating_filled' => addonify_quick_view_get_setting( 'product_rating_star_filled_color' ),
-			'--addonify_qv_product_rating_empty' => addonify_quick_view_get_setting( 'product_rating_star_empty_color' ),
-			'--addonify_qv_product_price' => addonify_quick_view_get_setting( 'product_price_color' ),
-			'--addonify_qv_product_price_sale' => addonify_quick_view_get_setting( 'product_on_sale_price_color' ),
-			'--addonify_qv_product_meta' => addonify_quick_view_get_setting( 'product_meta_text_color' ),
-			'--addonify_qv_product_meta_hover' => addonify_quick_view_get_setting( 'product_meta_text_hover_color' ),
-			'--addonify_qv_close_button_text' => addonify_quick_view_get_setting( 'modal_close_button_text_color' ),
-			'--addonify_qv_close_button_text_hover' => addonify_quick_view_get_setting( 'modal_close_button_text_hover_color' ),
-			'--addonify_qv_close_button_background' => addonify_quick_view_get_setting( 'modal_close_button_background_color' ),
-			'--addonify_qv_close_button_background_hover' => addonify_quick_view_get_setting( 'modal_close_button_background_hover_color' ),
-			'--addonify_qv_misc_button_text' => addonify_quick_view_get_setting( 'modal_misc_buttons_text_color' ),
-			'--addonify_qv_misc_button_text_hover' => addonify_quick_view_get_setting( 'modal_misc_buttons_text_hover_color' ),
-			'--addonify_qv_misc_button_background' => addonify_quick_view_get_setting( 'modal_misc_buttons_background_color' ),
-			'--addonify_qv_misc_button_background_hover' => addonify_quick_view_get_setting( 'modal_misc_buttons_background_hover_color' )
+			'--addonify_qv_modal_overlay_background' => addonify_quick_view_get_settings_fields_values( 'modal_box_overlay_background_color' ),
+			'--addonify_qv_modal_background' => addonify_quick_view_get_settings_fields_values( 'modal_box_background_color' ),
+			'--addonify_qv_product_title' => addonify_quick_view_get_settings_fields_values( 'product_title_color' ),
+			'--addonify_qv_product_excerpt' => addonify_quick_view_get_settings_fields_values( 'product_excerpt_text_color' ),
+			'--addonify_qv_product_rating_filled' => addonify_quick_view_get_settings_fields_values( 'product_rating_star_filled_color' ),
+			'--addonify_qv_product_rating_empty' => addonify_quick_view_get_settings_fields_values( 'product_rating_star_empty_color' ),
+			'--addonify_qv_product_price' => addonify_quick_view_get_settings_fields_values( 'product_price_color' ),
+			'--addonify_qv_product_price_sale' => addonify_quick_view_get_settings_fields_values( 'product_on_sale_price_color' ),
+			'--addonify_qv_product_meta' => addonify_quick_view_get_settings_fields_values( 'product_meta_text_color' ),
+			'--addonify_qv_product_meta_hover' => addonify_quick_view_get_settings_fields_values( 'product_meta_text_hover_color' ),
+			'--addonify_qv_close_button_text' => addonify_quick_view_get_settings_fields_values( 'modal_close_button_text_color' ),
+			'--addonify_qv_close_button_text_hover' => addonify_quick_view_get_settings_fields_values( 'modal_close_button_text_hover_color' ),
+			'--addonify_qv_close_button_background' => addonify_quick_view_get_settings_fields_values( 'modal_close_button_background_color' ),
+			'--addonify_qv_close_button_background_hover' => addonify_quick_view_get_settings_fields_values( 'modal_close_button_background_hover_color' ),
+			'--addonify_qv_misc_button_text' => addonify_quick_view_get_settings_fields_values( 'modal_misc_buttons_text_color' ),
+			'--addonify_qv_misc_button_text_hover' => addonify_quick_view_get_settings_fields_values( 'modal_misc_buttons_text_hover_color' ),
+			'--addonify_qv_misc_button_background' => addonify_quick_view_get_settings_fields_values( 'modal_misc_buttons_background_color' ),
+			'--addonify_qv_misc_button_background_hover' => addonify_quick_view_get_settings_fields_values( 'modal_misc_buttons_background_hover_color' )
 		);
 
 		$css = ':root {';

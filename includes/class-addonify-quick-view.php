@@ -67,18 +67,20 @@ class Addonify_Quick_View {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
+
 		if ( defined( 'ADDONIFY_QUICK_VIEW_VERSION' ) ) {
 			$this->version = ADDONIFY_QUICK_VIEW_VERSION;
 		} else {
 			$this->version = '1.0.0';
 		}
+		
 		$this->plugin_name = 'addonify-quick-view';
 
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
+		$this->rest_api();
 	}
 
 	/**
@@ -122,6 +124,14 @@ class Addonify_Quick_View {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-addonify-quick-view-public.php';
 
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-addonify-quick-view-rest-api.php';
+
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions/helpers.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions/settings.php';
+
 		$this->loader = new Addonify_Quick_View_Loader();
 
 	}
@@ -150,7 +160,6 @@ class Addonify_Quick_View {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-
 	private function define_admin_hooks() {
 
 		$plugin_admin = new Addonify_Quick_View_Admin( $this->get_plugin_name(), $this->get_version() );
@@ -167,6 +176,18 @@ class Addonify_Quick_View {
 		
 		//show notice if woocommerce is not active
 		$this->loader->add_action('admin_init', $plugin_admin, 'show_woocommerce_not_active_notice_callback' );
+	}
+
+
+	/**
+	 * Register rest api endpoints for admin settings page.
+	 *
+	 * @since    1.0.7
+	 * @access   private
+	 */
+	private function rest_api() {
+
+		$plugin_rest = new Addonify_Quick_View_Rest_API();
 	}
 
 

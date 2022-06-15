@@ -55,13 +55,6 @@ register_deactivation_hook( __FILE__, 'deactivate_addonify_quick_view' );
  */
 require plugin_dir_path( __FILE__ ) . 'includes/class-addonify-quick-view.php';
 
-
-/**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
- */
-require plugin_dir_path( __FILE__ ) . 'api/api.php';
-
 /**
  * Begins execution of the plugin.
  *
