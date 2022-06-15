@@ -138,14 +138,70 @@
 
 	.woocommerce {
 
-		.product_title {
+		.product {
 
-		
-		}
+			.product_title {
 
-		.star-rating {
+				color: var(--addonify_qv_product_title);
+			}
 
+			.price {
 
+				color: var(--addonify_qv_product_price);
+
+				del {
+
+					color: var(--addonify_qv_product_price);
+				}
+
+				ins {
+
+					color: var(--addonify_qv_product_price_sale);
+				}
+			}
+
+			.woocommerce-product-details__short-description {
+
+				color: var(--addonify_qv_product_excerpt);
+			}
+
+			.star-rating {
+
+				color: var(--addonify_qv_product_rating_filled);
+
+				&::before {
+
+					color: var(--addonify_qv_product_rating_empty);
+				}
+			}
+
+			.product_meta {
+
+				a {
+
+					color: var(--addonify_qv_product_meta);
+
+					&:hover {
+
+						color: var(--addonify_qv_product_meta_hover);
+					}
+				}
+			}
+
+			button,
+			.button {
+
+				fill: var(--addonify_qv_misc_button_text);
+				color: var(--addonify_qv_misc_button_text);
+				background-color: var(--addonify_qv_misc_button_background);
+
+				&:hover {
+
+					fill: var(--addonify_qv_misc_button_text_hover);
+					color: var(--addonify_qv_misc_button_text_hover);
+					background-color: var(--addonify_qv_misc_button_background_hover);
+				}
+			}
 		}
 	}
 }
