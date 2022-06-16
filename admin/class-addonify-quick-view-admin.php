@@ -71,18 +71,18 @@ class Addonify_Quick_View_Admin {
 
 			wp_enqueue_script( "{$this->plugin_name}-manifest", plugin_dir_url( __FILE__ ) . 'assets/js/manifest.js', null, $this->version, true );
 
-			wp_enqueue_script( "{$this->plugin_name}-vendor", plugin_dir_url( __FILE__ ) . 'assets/js/vendor.js', [ "{$this->plugin_name}-manifest" ], $this->version, true );
+			wp_enqueue_script( "{$this->plugin_name}-vendor", plugin_dir_url( __FILE__ ) . 'assets/js/vendor.js', array(  "{$this->plugin_name}-manifest" ), $this->version, true );
 
-			wp_enqueue_script( "{$this->plugin_name}-main", plugin_dir_url( __FILE__ ) . 'assets/js/main.js', ['lodash', "{$this->plugin_name}-vendor", 'wp-i18n'], $this->version, true );
+			wp_enqueue_script( "{$this->plugin_name}-main", plugin_dir_url( __FILE__ ) . 'assets/js/main.js', array( 'lodash', "{$this->plugin_name}-vendor", 'wp-i18n', 'wp-api-fetch' ), $this->version, true );
 
 			wp_set_script_translations( "{$this->plugin_name}-main", $this->plugin_name );
 
-			wp_localize_script( "{$this->plugin_name}-main", 'adfy_wp_locolizer', [
+			wp_localize_script( "{$this->plugin_name}-main", 'adfy_wp_locolizer', array(
 				'admin_url'  						=> admin_url( '/' ),
 				'ajax_url'   						=> admin_url( 'admin-ajax.php' ),
-				'api_url'    						=> home_url( '/wp-json/addonify_quick_view_options_api/' ),
+				'rest_namespace' 					=> 'addonify_quick_view_options_api',
 				'version_number' 					=> $this->version,
-        	] );
+			 ) );
 		}
 	}
 
@@ -90,7 +90,10 @@ class Addonify_Quick_View_Admin {
 	// check if woocommerce is active
 	private function is_woocommerce_active() {
 
-		if ( class_exists( 'woocommerce' ) )  return true; 
+		if ( class_exists( 'woocommerce' ) ) {
+			return true;
+		} 
+
 		return false;
 	}
 
@@ -111,7 +114,7 @@ class Addonify_Quick_View_Admin {
 
 	// callback function
 	// add custom "settings" link in the plugins.php page
-	public function custom_plugin_link_callback( $links, $file ){
+	public function custom_plugin_link_callback( $links, $file ) {
 		
 		if ( $file == plugin_basename(dirname(__FILE__, 2) . '/addonify-quick-view.php') ) {
 			// add "Settings" link
@@ -134,11 +137,13 @@ class Addonify_Quick_View_Admin {
 	// show error message in dashboard if woocommerce is not active
 	public function show_woocommerce_not_active_notice_callback() {
 
-		if( ! $this->is_woocommerce_active() ){
+		if( ! $this->is_woocommerce_active() ) {
+
 			add_action('admin_notices', 'woocommerce_not_active_notice' );
 		}
 
 		function woocommerce_not_active_notice() {
+
 			ob_start();
 			require dirname( __FILE__ ) .'/templates/woocommerce_not_active_notice.php';
 			echo ob_get_clean();

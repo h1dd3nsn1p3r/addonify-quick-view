@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
-import axios from 'axios';
 let { isEqual, cloneDeep } = lodash;
+let { apiFetch } = wp;
 import { ElMessage } from 'element-plus'
 
-let BASE_API_URL = adfy_wp_locolizer.api_url;
+let BASE_API_URL = adfy_wp_locolizer.rest_namespace;
 let oldOptions = {};
 
 export const useOptionsStore = defineStore({
@@ -32,20 +32,16 @@ export const useOptionsStore = defineStore({
         // ⚡️ Use Axios to get options from api.
         async fetchOptions() {
 
-            let res = await axios.get(BASE_API_URL + 'get_options')
-            try {
-
-                let settingsValues = res.data.settings_values;
-                this.data = res.data.tabs;
+            apiFetch({
+                path: BASE_API_URL + '/get_options',
+                method: 'GET',
+            }).then( (res) => {
+                let settingsValues = res.settings_values;
+                this.data = res.tabs;
                 this.options = settingsValues;
                 oldOptions = cloneDeep(settingsValues);
                 this.isLoading = false;
-
-            } catch (err) {
-
-                this.errors = err;
-                console.log(err);
-            }
+            } );
         },
 
         // ⚡️ Handle update options & map the values to the options object.
@@ -70,14 +66,18 @@ export const useOptionsStore = defineStore({
 
             this.isSaving = true; // Set saving to true.
 
-            let res = await axios.post(BASE_API_URL + 'update_options', payload)
-            try {
+            apiFetch({
+                path: BASE_API_URL + '/update_options',
+                method: 'POST',
+                data: {
+                    settings_values: payload
+                }
+            }).then( (res) => {
 
-                //console.log(res);
                 this.isSaving = false; // Saving is completed here.
-                this.message = res.data.message; // Set the message to be displayed to the user.
+                this.message = res.message; // Set the message to be displayed to the user.
 
-                if (res.data.success === true) {
+                if (res.success === true) {
                     ElMessage.success(({
                         message: this.message,
                         offset: 50,
@@ -93,12 +93,7 @@ export const useOptionsStore = defineStore({
                 }
 
                 this.fetchOptions(); // Fetch options again.
-
-            } catch (err) {
-
-                this.errors = err;
-                console.log(err);
-            }
+            } );
         },
     },
 });
