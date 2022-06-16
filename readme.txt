@@ -56,9 +56,8 @@ If you have suggestions about how to improve Addonify WooCommerce Quick View ple
 
 == Screenshots ==
 
-1. Addonify menu in dashboard.
-2. Addonify quick view button in the product section.
-3. Addonify quick view modal window.
+1. Addonify Quick View setting page at dashboard.
+2. Addonify Quick View button & modal box popup on frontend.
 
 == Changelog ==
 

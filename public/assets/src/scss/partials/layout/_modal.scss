@@ -12,6 +12,7 @@
     z-index: 100000000;
     width: 100%;
 	max-width: 1000px;
+	height: auto;
 	min-height: 400px;
     max-height: 80vh;
     overflow-x: hidden;
@@ -47,11 +48,6 @@
     opacity: 1;
 }
 
-.addonify-qvm-is-active .pswp {
-
-	z-index: 10001;
-}
-
 .adfy-quick-view-model-inner {
 
 	position:relative;
@@ -66,6 +62,18 @@
 	top: 10px;
 	right: 10px;
 	z-index: 10;
+}
+
+// Increase the z-index of WooCommerce lightbox when modal is active.
+
+.addonify-qvm-is-active .pswp {
+
+	z-index: 1000000001;
+}
+
+.addonify-qvm-is-active .woocommerce img.pswp__img, .woocommerce-page img.pswp__img {
+
+	background-color: white;
 }
 
 /* -------------------------------------------------------------------------- 
