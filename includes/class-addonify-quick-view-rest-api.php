@@ -49,8 +49,8 @@ if ( ! class_exists( 'Addonify_Quick_View_Rest_API' ) ) {
                 array(
                     array(
                         'methods'   => 'GET',
-                        'permission_callback' => '__return_true',
-                        'callback'  => array( $this, 'rest_handler_get_settings_fields' )
+                        'callback'  => array( $this, 'rest_handler_get_settings_fields' ),
+                        'permission_callback' => array( $this, 'permission_callback' ),
                     )
                 )
             );
@@ -62,7 +62,7 @@ if ( ! class_exists( 'Addonify_Quick_View_Rest_API' ) ) {
                     array(
                         'methods'   => \WP_REST_Server::CREATABLE,
                         'callback'  => array( $this, 'rest_handler_update_options' ),
-                        'permission_callback' => '__return_true'
+                        'permission_callback' => array( $this, 'permission_callback' )
                     )
                 )
             );
@@ -96,13 +96,36 @@ if ( ! class_exists( 'Addonify_Quick_View_Rest_API' ) ) {
 
             $params = $request->get_params(); 
 
-            if ( addonify_quick_view_update_settings_fields_values( $params ) === true ) {
+            if ( ! isset( $params['settings_values'] ) ) {
+
+                $return_data['message'] = __( 'No settings values to update!!!', 'addonify-quick-view' );
+                return $return_data;
+            }
+
+            if ( addonify_quick_view_update_settings_fields_values( $params['settings_values'] ) === true ) {
 
                 $return_data['success'] = true;
                 $return_data['message'] = __( 'Settings saved successfully', 'addonify-quick-view' );
             } 
 
             return rest_ensure_response( $return_data );
+        }
+
+
+
+        /**
+         * Permission callback function to check if current user can access the rest api route.
+         * 
+         * @since    1.0.7
+         */
+        public function permission_callback() {
+
+            if ( ! current_user_can( 'manage_options' ) ) {
+
+                return new WP_Error( 'rest_forbidden', esc_html__( 'Ooops, you are allowed to manage options.', 'addonify-quick-view' ), array( 'status' => 401 ) );
+            } 
+            
+            return true;
         }
     }
 }
